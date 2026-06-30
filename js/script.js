@@ -1,50 +1,110 @@
-function randomItem(array){
+/*
+    script.js
 
-    return array[Math.floor(Math.random()*array.length)];
+    UI only.
+*/
 
-}
+let currentHand={};
 
-function formatPlayerHand(hand){
+function createCard(rank,suit){
 
-    if(hand.type==="hard"){
+    const colour=
+        suit==="♥" || suit==="♦"
+        ? "red"
+        : "black";
 
-        return "Hard " + hand.total;
+    return `
 
-    }
+    <div class="playingCard ${colour}">
 
-    if(hand.type==="soft"){
+        <div class="cornerTop">
 
-        return "Soft " + hand.total;
+            ${rank}<br>${suit}
 
-    }
+        </div>
 
-    if(hand.type==="pair"){
+        <div class="centerSuit">
 
-        return "Pair of " + hand.rank + "s";
+            ${suit}
 
-    }
+        </div>
+
+        <div class="cornerBottom">
+
+            ${rank}<br>${suit}
+
+        </div>
+
+    </div>
+
+    `;
 
 }
 
 function generateHand(){
 
-    const dealer = randomItem(dealerCards);
+    currentHand=generateScenario();
 
-    const player = randomItem(practiceHands);
+    document.getElementById("dealerCards").innerHTML=
 
-    document.getElementById("dealer").textContent =
-        "Dealer: " + dealer;
+        createCard(
+            currentHand.dealer.rank,
+            currentHand.dealer.suit
+        );
 
-    document.getElementById("player").textContent =
-        "Player: " + formatPlayerHand(player);
+    document.getElementById("playerCards").innerHTML=
 
-    document.getElementById("feedback").textContent =
+        createCard(
+            currentHand.cards[0].rank,
+            currentHand.cards[0].suit
+        )
+
+        +
+
+        createCard(
+            currentHand.cards[1].rank,
+            currentHand.cards[1].suit
+        );
+
+    document.getElementById("feedback").innerHTML=
         "Choose the correct play.";
 
 }
 
-generateHand();
+function checkAnswer(move){
 
-document
-.getElementById("nextHand")
+    const correctMove = getCorrectMove(currentHand);
+
+    if(move === correctMove){
+
+        document.getElementById("feedback").innerHTML =
+            "✅ Correct!";
+
+    }else{
+
+        document.getElementById("feedback").innerHTML =
+            `❌ Incorrect<br>Correct Play: <strong>${correctMove}</strong>`;
+
+    }
+
+}
+
+document.getElementById("hit")
+.addEventListener("click",()=>checkAnswer("Hit"));
+
+document.getElementById("stand")
+.addEventListener("click",()=>checkAnswer("Stand"));
+
+document.getElementById("double")
+.addEventListener("click",()=>checkAnswer("Double"));
+
+document.getElementById("split")
+.addEventListener("click",()=>checkAnswer("Split"));
+
+document.getElementById("surrender")
+.addEventListener("click",()=>checkAnswer("Surrender"));
+
+document.getElementById("nextHand")
 .addEventListener("click",generateHand);
+
+generateHand();
