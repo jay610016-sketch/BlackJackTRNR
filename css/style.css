@@ -888,26 +888,29 @@ body{
 
     }
 
-    .table{
+   .table{
 
-        width:100%;
+    width:100%;
 
-        height:auto;
+    height:auto;
 
-        padding:20px;
+    display:flex;
 
-        border-width:4px;
+    flex-direction:column;
 
-        border-radius:22px;
+    justify-content:flex-start;
 
-    }
+    gap:20px;
 
-    .section{
+    padding:20px;
 
-        margin-bottom:20px;
+}
 
-    }
+   .section{
 
+    margin:0;
+
+}
     .cardRow{
 
         gap:10px;
