@@ -139,6 +139,28 @@ document.getElementById("surrender")
 document.getElementById("nextHand")
 .addEventListener("click",generateHand);
 
+/* ---------- Mobile Buttons ---------- */
+
+document.getElementById("mobileHit")
+?.addEventListener("click",()=>checkAnswer("Hit"));
+
+document.getElementById("mobileStand")
+?.addEventListener("click",()=>checkAnswer("Stand"));
+
+document.getElementById("mobileDouble")
+?.addEventListener("click",()=>checkAnswer("Double"));
+
+document.getElementById("mobileSplit")
+?.addEventListener("click",()=>checkAnswer("Split"));
+
+document.getElementById("mobileSurrender")
+?.addEventListener("click",()=>checkAnswer("Surrender"));
+
+document.getElementById("mobileNextHand")
+?.addEventListener("click",generateHand);
+
+generateHand();
+
 /*
 ==========================================
 Quick Stats Navigation

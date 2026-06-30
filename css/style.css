@@ -783,3 +783,140 @@ body{
     }
 
 }
+
+/* ==========================================
+   MOBILE LAYOUT
+========================================== */
+
+@media (max-width:700px){
+
+    body{
+
+        overflow-y:auto;
+
+    }
+
+    #app{
+
+        display:flex;
+
+        flex-direction:column;
+
+        height:auto;
+
+    }
+
+    #tableArea{
+
+        order:1;
+
+        width:100%;
+
+        padding:12px;
+
+    }
+
+    #sidebar{
+
+        order:2;
+
+        width:100%;
+
+        border-right:none;
+
+        border-top:2px solid #c9a44c;
+
+        padding:18px;
+
+    }
+
+    .table{
+
+        width:100%;
+
+        height:auto;
+
+        padding:20px;
+
+        border-width:4px;
+
+        border-radius:22px;
+
+    }
+
+    .section{
+
+        margin-bottom:20px;
+
+    }
+
+    .cardRow{
+
+        gap:10px;
+
+        min-height:95px;
+
+    }
+
+    .playingCard{
+
+        width:60px;
+
+        height:88px;
+
+    }
+
+    .cornerTop,
+    .cornerBottom{
+
+        font-size:14px;
+
+    }
+
+    .centerSuit{
+
+        font-size:26px;
+
+    }
+
+    #feedback{
+
+        font-size:18px;
+
+        margin-top:15px;
+
+    }
+
+    .buttonGroup{
+
+        display:grid;
+
+        grid-template-columns:1fr 1fr;
+
+        gap:10px;
+
+    }
+
+    .buttonGroup button{
+
+        width:100%;
+
+    }
+
+    .stats{
+
+        margin-top:20px;
+
+    }
+
+    #nextHand{
+
+        position:static;
+
+        width:100% !important;
+
+        margin-top:20px;
+
+    }
+
+}
