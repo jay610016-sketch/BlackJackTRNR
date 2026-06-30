@@ -177,7 +177,7 @@ LOOKUP
 ==================================================
 */
 
-export function getCorrectMove(hand){
+function getCorrectMove(hand){
 
     if(hand.player.type === "hard"){
         return HARD[hand.player.value][hand.dealer.rank];

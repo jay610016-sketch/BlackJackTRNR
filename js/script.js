@@ -1,3 +1,4 @@
+
 /*
     script.js
 
@@ -6,10 +7,11 @@
 
 let currentHand={};
 
-function createCard(rank,suit){
+function createCard(rank, suit){
 
-    const colour=
-        suit==="♥" || suit==="♦"
+    const redSuits = ["♥", "♦"];
+
+    const colour = redSuits.includes(suit)
         ? "red"
         : "black";
 
@@ -18,21 +20,15 @@ function createCard(rank,suit){
     <div class="playingCard ${colour}">
 
         <div class="cornerTop">
-
             ${rank}<br>${suit}
-
         </div>
 
         <div class="centerSuit">
-
             ${suit}
-
         </div>
 
         <div class="cornerBottom">
-
             ${rank}<br>${suit}
-
         </div>
 
     </div>
@@ -75,15 +71,51 @@ function checkAnswer(move){
 
     const correctMove = getCorrectMove(currentHand);
 
-    if(move === correctMove){
+    const wasCorrect = (move === correctMove);
+
+    recordHand(
+
+        currentHand,
+
+        move,
+
+        correctMove,
+
+        wasCorrect
+
+    );
+
+    disableActionButtons();
+
+    if(wasCorrect){
 
         document.getElementById("feedback").innerHTML =
             "✅ Correct!";
 
-    }else{
+        setTimeout(function(){
+
+            generateHand();
+
+            enableActionButtons();
+
+        },600);
+
+    }
+
+    else{
 
         document.getElementById("feedback").innerHTML =
-            `❌ Incorrect<br>Correct Play: <strong>${correctMove}</strong>`;
+            `❌ Incorrect<br><br>
+            Correct Play:
+            <strong>${correctMove}</strong>`;
+
+        setTimeout(function(){
+
+            generateHand();
+
+            enableActionButtons();
+
+        },1400);
 
     }
 
@@ -107,4 +139,66 @@ document.getElementById("surrender")
 document.getElementById("nextHand")
 .addEventListener("click",generateHand);
 
+/*
+==========================================
+Quick Stats Navigation
+==========================================
+*/
+
+document
+    .getElementById("quickStats")
+    .addEventListener("dblclick", function(){
+
+        window.location.href = "stats.html";
+
+    });
+    
 generateHand();
+
+function disableActionButtons(){
+
+    const buttons=[
+
+        "hit",
+
+        "stand",
+
+        "double",
+
+        "split",
+
+        "surrender"
+
+    ];
+
+    buttons.forEach(id=>{
+
+        document.getElementById(id).disabled=true;
+
+    });
+
+}
+
+function enableActionButtons(){
+
+    const buttons=[
+
+        "hit",
+
+        "stand",
+
+        "double",
+
+        "split",
+
+        "surrender"
+
+    ];
+
+    buttons.forEach(id=>{
+
+        document.getElementById(id).disabled=false;
+
+    });
+
+}

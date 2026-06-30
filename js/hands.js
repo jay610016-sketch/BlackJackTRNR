@@ -44,7 +44,7 @@ function randomItem(array){
 
 }
 
-export function randomSuit(){
+function randomSuit(){
 
     return randomItem(SUITS);
 
@@ -265,7 +265,7 @@ MAIN SCENARIO GENERATOR
 ----------------------------------------------------
 */
 
-export function generateScenario(){
+function generateScenario(){
 
     const type = randomScenarioType();
 

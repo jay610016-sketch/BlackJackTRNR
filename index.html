@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="css/style.css">
 
-</head>
+<body class="trainerPage">
 
 <body>
 
@@ -56,25 +56,31 @@
 
         </div>
 
-        <div class="stats">
+        <div class="stats" id="quickStats">
 
-            <h4>Statistics</h4>
+    <h4>📊 Statistics</h4>
 
-            <p id="accuracy">Accuracy: --%</p>
+    <p id="accuracy">Accuracy: --%</p>
 
-            <p id="handsPlayed">Hands Played: 0</p>
+    <p id="handsPlayed">Hands Played: 0</p>
 
-            <p id="streak">Current Streak: 0</p>
+    <p id="streak">Current Streak: 0</p>
 
-        </div>
+    <small class="statsHint">
+
+        Double-click for detailed statistics
+
+    </small>
+
+</div>
 
         <button
-            id="nextHand"
-            class="btn btn-warning btn-lg w-100">
+    id="nextHand"
+    class="btn btn-warning btn-lg">
 
-            Next Hand
+    New Hand
 
-        </button>
+</button>
 
     </aside>
 
@@ -110,7 +116,10 @@
 
 </div>
 
-<script type="module" src="js/ui/trainer.js"></script>
+<script src="js/hands.js"></script>
+<script src="js/strategy.js"></script>
+<script src="js/stats.js"></script>
+<script src="js/script.js"></script>
 
 </body>
 
