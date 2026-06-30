@@ -241,22 +241,22 @@ function updateQuickStats(){
 
     if(accuracyElement){
 
-        accuracyElement.innerHTML =
-            `Accuracy: ${accuracy}%`;
+        accuracyElement.textContent =
+            `${accuracy}%`;
 
     }
 
     if(handsElement){
 
-        handsElement.innerHTML =
-            `Hands Played: ${stats.handsPlayed}`;
+        handsElement.textContent =
+            stats.handsPlayed;
 
     }
 
     if(streakElement){
 
-        streakElement.innerHTML =
-            `Current Streak: ${stats.currentStreak}`;
+        streakElement.textContent =
+            stats.currentStreak;
 
     }
 
