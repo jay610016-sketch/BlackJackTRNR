@@ -51,9 +51,11 @@ let stats = {
 
     bestStreak:0,
 
-    history:[]
+    history:[],
+    
+    decisionStats:{}
 
-}
+};
 
 /*
 ==========================================
@@ -67,7 +69,19 @@ function loadStats(){
 
     if(saved){
 
-        stats = JSON.parse(saved);
+        const loaded = JSON.parse(saved);
+
+        // Check if this is an old save format
+
+        if(!loaded.overall){
+
+            resetStats();
+
+            return;
+
+        }
+
+        stats = loaded;
 
     }
 
@@ -137,7 +151,9 @@ function resetStats(){
 
         bestStreak:0,
 
-        history:[]
+        history:[],
+        
+        decisionStats:{}
 
     };
 
@@ -175,6 +191,18 @@ function getAccuracy(category = "overall"){
 
 /*
 ==========================================
+Decision ID
+==========================================
+*/
+
+function getDecisionId(hand){
+
+    return `${hand.player.type}-${hand.player.value}-${hand.dealer.rank}`;
+
+}
+
+/*
+==========================================
 Record Hand
 ==========================================
 */
@@ -195,17 +223,39 @@ function recordHand(
 
     const category = hand.player.type;
 
+    const decisionId = getDecisionId(hand);
+
+// Create the decision if it doesn't exist yet
+
+if(!stats.decisionStats[decisionId]){
+
+    stats.decisionStats[decisionId]={
+
+        handsPlayed:0,
+
+        correct:0,
+
+        incorrect:0
+
+    };
+
+}
+
     // Update Overall Statistics
 
     stats.overall.handsPlayed++;
-
+    
     stats[category].handsPlayed++;
+    
+    stats.decisionStats[decisionId].handsPlayed++;
 
     if(wasCorrect){
 
         stats.overall.correct++;
 
         stats[category].correct++;
+
+        stats.decisionStats[decisionId].correct++;
 
         stats.currentStreak++;
 
@@ -222,6 +272,8 @@ function recordHand(
         stats.overall.incorrect++;
 
         stats[category].incorrect++;
+
+        stats.decisionStats[decisionId].incorrect++;
 
         stats.currentStreak = 0;
 
@@ -274,6 +326,62 @@ function recordHand(
     updateQuickStats();
 
     saveStats();
+
+}
+
+/*
+==========================================
+Most Missed Hands
+==========================================
+*/
+
+function getMostMissedHands(limit = 10){
+
+    const decisions = [];
+
+    for(const id in stats.decisionStats){
+
+        const hand = stats.decisionStats[id];
+
+        if(hand.handsPlayed < 2){
+
+            continue;
+
+        }
+
+        decisions.push({
+
+            id:id,
+
+            accuracy:
+                (hand.correct / hand.handsPlayed) * 100,
+
+            handsPlayed:
+                hand.handsPlayed,
+
+            correct:
+                hand.correct,
+
+            incorrect:
+                hand.incorrect
+
+        });
+
+    }
+
+    decisions.sort(function(a,b){
+
+        if(a.accuracy === b.accuracy){
+
+            return b.handsPlayed - a.handsPlayed;
+
+        }
+
+        return a.accuracy - b.accuracy;
+
+    });
+
+    return decisions.slice(0,limit);
 
 }
 
