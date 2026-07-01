@@ -38,13 +38,13 @@ function updateSummary(){
         getAccuracy().toFixed(1) + "%";
 
     document.getElementById("handsPlayed").innerHTML =
-        stats.handsPlayed;
+        stats.overall.handsPlayed;
 
     document.getElementById("correct").innerHTML =
-        stats.correct;
+        stats.overall.correct;
 
     document.getElementById("incorrect").innerHTML =
-        stats.incorrect;
+        stats.overall.incorrect;
 
     document.getElementById("currentStreak").innerHTML =
         stats.currentStreak;

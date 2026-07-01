@@ -101,21 +101,49 @@ function resetStats(){
 
     stats = {
 
-        handsPlayed: 0,
+        overall:{
 
-        correct: 0,
+            handsPlayed:0,
+            correct:0,
+            incorrect:0
 
-        incorrect: 0,
+        },
 
-        currentStreak: 0,
+        hard:{
 
-        bestStreak: 0,
+            handsPlayed:0,
+            correct:0,
+            incorrect:0
 
-        history: []
+        },
+
+        soft:{
+
+            handsPlayed:0,
+            correct:0,
+            incorrect:0
+
+        },
+
+        pair:{
+
+            handsPlayed:0,
+            correct:0,
+            incorrect:0
+
+        },
+
+        currentStreak:0,
+
+        bestStreak:0,
+
+        history:[]
 
     };
 
     saveStats();
+
+    updateQuickStats();
 
 }
 
