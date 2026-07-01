@@ -15,19 +15,45 @@ const STORAGE_KEY = "blackjacktrnr_stats";
 
 let stats = {
 
-    handsPlayed: 0,
+    overall:{
 
-    correct: 0,
+        handsPlayed:0,
+        correct:0,
+        incorrect:0
 
-    incorrect: 0,
+    },
 
-    currentStreak: 0,
+    hard:{
 
-    bestStreak: 0,
+        handsPlayed:0,
+        correct:0,
+        incorrect:0
 
-    history: []
+    },
 
-};
+    soft:{
+
+        handsPlayed:0,
+        correct:0,
+        incorrect:0
+
+    },
+
+    pair:{
+
+        handsPlayed:0,
+        correct:0,
+        incorrect:0
+
+    },
+
+    currentStreak:0,
+
+    bestStreak:0,
+
+    history:[]
+
+}
 
 /*
 ==========================================
@@ -99,9 +125,11 @@ Accuracy
 ==========================================
 */
 
-function getAccuracy(){
+function getAccuracy(category = "overall"){
 
-    if(stats.handsPlayed === 0){
+    const section = stats[category];
+
+    if(section.handsPlayed === 0){
 
         return 0;
 
@@ -109,9 +137,9 @@ function getAccuracy(){
 
     return (
 
-        stats.correct /
+        section.correct /
 
-        stats.handsPlayed
+        section.handsPlayed
 
     ) * 100;
 
@@ -133,13 +161,23 @@ function recordHand(
 
     wasCorrect
 
-){
+) {
 
-    stats.handsPlayed++;
+    // Determine which category this hand belongs to
+
+    const category = hand.player.type;
+
+    // Update Overall Statistics
+
+    stats.overall.handsPlayed++;
+
+    stats[category].handsPlayed++;
 
     if(wasCorrect){
 
-        stats.correct++;
+        stats.overall.correct++;
+
+        stats[category].correct++;
 
         stats.currentStreak++;
 
@@ -151,9 +189,11 @@ function recordHand(
 
     }
 
-    else{
+    else {
 
-        stats.incorrect++;
+        stats.overall.incorrect++;
+
+        stats[category].incorrect++;
 
         stats.currentStreak = 0;
 
@@ -228,7 +268,7 @@ Update Quick Stats
 function updateQuickStats(){
 
     const accuracy =
-        getAccuracy().toFixed(1);
+        getAccuracy("overall").toFixed(1);
 
     const accuracyElement =
         document.getElementById("accuracy");
@@ -249,7 +289,7 @@ function updateQuickStats(){
     if(handsElement){
 
         handsElement.textContent =
-            stats.handsPlayed;
+            stats.overall.handsPlayed;
 
     }
 
