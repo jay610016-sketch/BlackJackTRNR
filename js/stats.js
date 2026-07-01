@@ -4,116 +4,31 @@ stats.js
 
 Handles:
 
-- Session statistics
+- Statistics
 - History
-- localStorage
+- Analytics
+- Local Storage
 
+==========================================
+*/
+
+/*
+==========================================
+Constants
 ==========================================
 */
 
 const STORAGE_KEY = "blackjacktrnr_stats";
 
-let stats = {
-
-    overall:{
-
-        handsPlayed:0,
-        correct:0,
-        incorrect:0
-
-    },
-
-    hard:{
-
-        handsPlayed:0,
-        correct:0,
-        incorrect:0
-
-    },
-
-    soft:{
-
-        handsPlayed:0,
-        correct:0,
-        incorrect:0
-
-    },
-
-    pair:{
-
-        handsPlayed:0,
-        correct:0,
-        incorrect:0
-
-    },
-
-    currentStreak:0,
-
-    bestStreak:0,
-
-    history:[],
-    
-    decisionStats:{}
-
-};
-
 /*
 ==========================================
-Load
+Stats Structure
 ==========================================
 */
 
-function loadStats(){
+function createEmptyStats(){
 
-    const saved = localStorage.getItem(STORAGE_KEY);
-
-    if(saved){
-
-        const loaded = JSON.parse(saved);
-
-        // Check if this is an old save format
-
-        if(!loaded.overall){
-
-            resetStats();
-
-            return;
-
-        }
-
-        stats = loaded;
-
-    }
-
-}
-
-/*
-==========================================
-Save
-==========================================
-*/
-
-function saveStats(){
-
-    localStorage.setItem(
-
-        STORAGE_KEY,
-
-        JSON.stringify(stats)
-
-    );
-
-}
-
-/*
-==========================================
-Reset
-==========================================
-*/
-
-function resetStats(){
-
-    stats = {
+    return{
 
         overall:{
 
@@ -152,10 +67,62 @@ function resetStats(){
         bestStreak:0,
 
         history:[],
-        
+
         decisionStats:{}
 
     };
+
+}
+
+let stats = createEmptyStats();
+
+/*
+==========================================
+Storage
+==========================================
+*/
+
+function loadStats(){
+
+    const saved =
+        localStorage.getItem(STORAGE_KEY);
+
+    if(!saved){
+
+        return;
+
+    }
+
+    const loaded =
+        JSON.parse(saved);
+
+    if(!loaded.overall){
+
+        resetStats();
+
+        return;
+
+    }
+
+    stats = loaded;
+
+}
+
+function saveStats(){
+
+    localStorage.setItem(
+
+        STORAGE_KEY,
+
+        JSON.stringify(stats)
+
+    );
+
+}
+
+function resetStats(){
+
+    stats = createEmptyStats();
 
     saveStats();
 
@@ -165,15 +132,15 @@ function resetStats(){
 
 /*
 ==========================================
-Accuracy
+Helpers
 ==========================================
 */
 
-function getAccuracy(category = "overall"){
+function getAccuracy(category="overall"){
 
     const section = stats[category];
 
-    if(section.handsPlayed === 0){
+    if(section.handsPlayed===0){
 
         return 0;
 
@@ -185,19 +152,71 @@ function getAccuracy(category = "overall"){
 
         section.handsPlayed
 
-    ) * 100;
+    )*100;
+
+}
+
+function getDecisionId(hand){
+
+    return `${hand.player.type}-${hand.player.value}-${hand.dealer.rank}`;
 
 }
 
 /*
 ==========================================
-Decision ID
+Analytics
 ==========================================
 */
 
-function getDecisionId(hand){
+function getMostMissedHands(limit=10){
 
-    return `${hand.player.type}-${hand.player.value}-${hand.dealer.rank}`;
+    const decisions=[];
+
+    for(const id in stats.decisionStats){
+
+        const hand =
+            stats.decisionStats[id];
+
+        if(hand.handsPlayed < 2){
+
+            continue;
+
+        }
+
+        decisions.push({
+
+            id:id,
+
+            accuracy:
+
+                (hand.correct / hand.handsPlayed)*100,
+
+            handsPlayed:
+                hand.handsPlayed,
+
+            correct:
+                hand.correct,
+
+            incorrect:
+                hand.incorrect
+
+        });
+
+    }
+
+    decisions.sort(function(a,b){
+
+        if(a.accuracy===b.accuracy){
+
+            return b.handsPlayed-a.handsPlayed;
+
+        }
+
+        return a.accuracy-b.accuracy;
+
+    });
+
+    return decisions.slice(0,limit);
 
 }
 
@@ -217,37 +236,36 @@ function recordHand(
 
     wasCorrect
 
-) {
+){
 
-    // Determine which category this hand belongs to
+    const category =
+        hand.player.type;
 
-    const category = hand.player.type;
+    const decisionId =
+        getDecisionId(hand);
 
-    const decisionId = getDecisionId(hand);
+    if(!stats.decisionStats[decisionId]){
 
-// Create the decision if it doesn't exist yet
+        stats.decisionStats[decisionId]={
 
-if(!stats.decisionStats[decisionId]){
+            handsPlayed:0,
 
-    stats.decisionStats[decisionId]={
+            correct:0,
 
-        handsPlayed:0,
+            incorrect:0
 
-        correct:0,
+        };
 
-        incorrect:0
+    }
 
-    };
-
-}
-
-    // Update Overall Statistics
+    const decision =
+        stats.decisionStats[decisionId];
 
     stats.overall.handsPlayed++;
-    
+
     stats[category].handsPlayed++;
-    
-    stats.decisionStats[decisionId].handsPlayed++;
+
+    decision.handsPlayed++;
 
     if(wasCorrect){
 
@@ -255,69 +273,82 @@ if(!stats.decisionStats[decisionId]){
 
         stats[category].correct++;
 
-        stats.decisionStats[decisionId].correct++;
+        decision.correct++;
 
         stats.currentStreak++;
 
-        if(stats.currentStreak > stats.bestStreak){
+        if(stats.currentStreak >
 
-            stats.bestStreak = stats.currentStreak;
+            stats.bestStreak){
+
+            stats.bestStreak =
+
+                stats.currentStreak;
 
         }
 
     }
 
-    else {
+    else{
 
         stats.overall.incorrect++;
 
         stats[category].incorrect++;
 
-        stats.decisionStats[decisionId].incorrect++;
+        decision.incorrect++;
 
-        stats.currentStreak = 0;
+        stats.currentStreak=0;
 
     }
 
     stats.history.unshift({
 
-        timestamp: new Date().toLocaleTimeString(),
+        timestamp:
 
-        playerType: hand.player.type,
+            new Date().toLocaleTimeString(),
 
-        playerValue: hand.player.value,
+        playerType:
+            hand.player.type,
 
-        dealer: hand.dealer.rank,
+        playerValue:
+            hand.player.value,
 
-        cards: [
+        dealer:
+            hand.dealer.rank,
+
+        cards:[
 
             {
 
-                rank: hand.cards[0].rank,
+                rank:
+                    hand.cards[0].rank,
 
-                suit: hand.cards[0].suit
+                suit:
+                    hand.cards[0].suit
 
             },
 
             {
 
-                rank: hand.cards[1].rank,
+                rank:
+                    hand.cards[1].rank,
 
-                suit: hand.cards[1].suit
+                suit:
+                    hand.cards[1].suit
 
             }
 
         ],
 
-        playerAnswer: playerAnswer,
+        playerAnswer,
 
-        correctAnswer: correctAnswer,
+        correctAnswer,
 
-        wasCorrect: wasCorrect
+        wasCorrect
 
     });
 
-    if(stats.history.length > 50){
+    if(stats.history.length>50){
 
         stats.history.pop();
 
@@ -331,80 +362,11 @@ if(!stats.decisionStats[decisionId]){
 
 /*
 ==========================================
-Most Missed Hands
-==========================================
-*/
-
-function getMostMissedHands(limit = 10){
-
-    const decisions = [];
-
-    for(const id in stats.decisionStats){
-
-        const hand = stats.decisionStats[id];
-
-        if(hand.handsPlayed < 2){
-
-            continue;
-
-        }
-
-        decisions.push({
-
-            id:id,
-
-            accuracy:
-                (hand.correct / hand.handsPlayed) * 100,
-
-            handsPlayed:
-                hand.handsPlayed,
-
-            correct:
-                hand.correct,
-
-            incorrect:
-                hand.incorrect
-
-        });
-
-    }
-
-    decisions.sort(function(a,b){
-
-        if(a.accuracy === b.accuracy){
-
-            return b.handsPlayed - a.handsPlayed;
-
-        }
-
-        return a.accuracy - b.accuracy;
-
-    });
-
-    return decisions.slice(0,limit);
-
-}
-
-/*
-==========================================
-Public
-==========================================
-*/
-
-loadStats();
-
-updateQuickStats();
-
-/*
-==========================================
-Update Quick Stats
+UI
 ==========================================
 */
 
 function updateQuickStats(){
-
-    const accuracy =
-        getAccuracy("overall").toFixed(1);
 
     const accuracyElement =
         document.getElementById("accuracy");
@@ -418,13 +380,15 @@ function updateQuickStats(){
     if(accuracyElement){
 
         accuracyElement.textContent =
-            `${accuracy}%`;
+
+            `${getAccuracy().toFixed(1)}%`;
 
     }
 
     if(handsElement){
 
         handsElement.textContent =
+
             stats.overall.handsPlayed;
 
     }
@@ -432,8 +396,20 @@ function updateQuickStats(){
     if(streakElement){
 
         streakElement.textContent =
+
             stats.currentStreak;
 
     }
 
 }
+
+/*
+==========================================
+Initialization
+==========================================
+*/
+
+loadStats();
+
+updateQuickStats();
+

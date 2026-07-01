@@ -1,18 +1,33 @@
-
 /*
-    script.js
+==========================================
+script.js
 
-    UI only.
+Controls the Trainer UI
+==========================================
 */
 
-let currentHand={};
+/*
+==========================================
+Current Hand
+==========================================
+*/
+
+let currentHand = {};
+
+/*
+==========================================
+Card Rendering
+==========================================
+*/
 
 function createCard(rank, suit){
 
-    const redSuits = ["♥", "♦"];
+    const colour =
 
-    const colour = redSuits.includes(suit)
+        ["♥","♦"].includes(suit)
+
         ? "red"
+
         : "black";
 
     return `
@@ -20,15 +35,21 @@ function createCard(rank, suit){
     <div class="playingCard ${colour}">
 
         <div class="cornerTop">
+
             ${rank}<br>${suit}
+
         </div>
 
         <div class="centerSuit">
+
             ${suit}
+
         </div>
 
         <div class="cornerBottom">
+
             ${rank}<br>${suit}
+
         </div>
 
     </div>
@@ -37,41 +58,67 @@ function createCard(rank, suit){
 
 }
 
+/*
+==========================================
+Generate Hand
+==========================================
+*/
+
 function generateHand(){
 
-    currentHand=generateScenario();
+    currentHand = generateScenario();
 
-    document.getElementById("dealerCards").innerHTML=
+    document.getElementById("dealerCards").innerHTML =
 
         createCard(
+
             currentHand.dealer.rank,
+
             currentHand.dealer.suit
+
         );
 
-    document.getElementById("playerCards").innerHTML=
+    document.getElementById("playerCards").innerHTML =
 
         createCard(
+
             currentHand.cards[0].rank,
+
             currentHand.cards[0].suit
+
         )
 
         +
 
         createCard(
+
             currentHand.cards[1].rank,
+
             currentHand.cards[1].suit
+
         );
 
-    document.getElementById("feedback").innerHTML=
+    document.getElementById("feedback").innerHTML =
+
         "Choose the correct play.";
 
 }
 
+/*
+==========================================
+Answer Checking
+==========================================
+*/
+
 function checkAnswer(move){
 
-    const correctMove = getCorrectMove(currentHand);
+    const correctMove =
 
-    const wasCorrect = (move === correctMove);
+        getCorrectMove(currentHand);
+
+    const wasCorrect =
+
+        move === correctMove;
 
     recordHand(
 
@@ -90,6 +137,7 @@ function checkAnswer(move){
     if(wasCorrect){
 
         document.getElementById("feedback").innerHTML =
+
             "✅ Correct!";
 
         setTimeout(function(){
@@ -105,8 +153,11 @@ function checkAnswer(move){
     else{
 
         document.getElementById("feedback").innerHTML =
+
             `❌ Incorrect<br><br>
+
             Correct Play:
+
             <strong>${correctMove}</strong>`;
 
         setTimeout(function(){
@@ -120,6 +171,66 @@ function checkAnswer(move){
     }
 
 }
+
+/*
+==========================================
+Button Helpers
+==========================================
+*/
+
+function disableActionButtons(){
+
+    const buttons = [
+
+        "hit",
+
+        "stand",
+
+        "double",
+
+        "split",
+
+        "surrender"
+
+    ];
+
+    buttons.forEach(function(id){
+
+        document.getElementById(id).disabled = true;
+
+    });
+
+}
+
+function enableActionButtons(){
+
+    const buttons = [
+
+        "hit",
+
+        "stand",
+
+        "double",
+
+        "split",
+
+        "surrender"
+
+    ];
+
+    buttons.forEach(function(id){
+
+        document.getElementById(id).disabled = false;
+
+    });
+
+}
+
+/*
+==========================================
+Desktop Buttons
+==========================================
+*/
 
 document.getElementById("hit")
 .addEventListener("click",()=>checkAnswer("Hit"));
@@ -139,7 +250,11 @@ document.getElementById("surrender")
 document.getElementById("nextHand")
 .addEventListener("click",generateHand);
 
-/* ---------- Mobile Buttons ---------- */
+/*
+==========================================
+Mobile Buttons
+==========================================
+*/
 
 document.getElementById("mobileHit")
 ?.addEventListener("click",()=>checkAnswer("Hit"));
@@ -159,68 +274,24 @@ document.getElementById("mobileSurrender")
 document.getElementById("mobileNextHand")
 ?.addEventListener("click",generateHand);
 
-generateHand();
-
 /*
 ==========================================
 Quick Stats Navigation
 ==========================================
 */
 
-document
-    .getElementById("quickStats")
-    .addEventListener("dblclick", function(){
+document.getElementById("quickStats")
+.addEventListener("dblclick",function(){
 
-        window.location.href = "stats.html";
+    window.location.href = "stats.html";
 
-    });
-    
+});
+
+/*
+==========================================
+Initialization
+==========================================
+*/
+
 generateHand();
 
-function disableActionButtons(){
-
-    const buttons=[
-
-        "hit",
-
-        "stand",
-
-        "double",
-
-        "split",
-
-        "surrender"
-
-    ];
-
-    buttons.forEach(id=>{
-
-        document.getElementById(id).disabled=true;
-
-    });
-
-}
-
-function enableActionButtons(){
-
-    const buttons=[
-
-        "hit",
-
-        "stand",
-
-        "double",
-
-        "split",
-
-        "surrender"
-
-    ];
-
-    buttons.forEach(id=>{
-
-        document.getElementById(id).disabled=false;
-
-    });
-
-}
