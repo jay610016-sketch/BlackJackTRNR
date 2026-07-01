@@ -878,9 +878,9 @@ body{
 
     .backButton{
 
-        padding:10px 18px;
+        padding:8px 16px;
 
-        font-size:15px;
+        font-size:14px;
 
     }
 
@@ -896,13 +896,13 @@ body{
 
     .summaryCard{
 
-        padding:16px;
+    padding:12px;
 
-    }
+}
 
     .cardTitle{
 
-        font-size:14px;
+        font-size:13px;
 
         margin-bottom:10px;
 
@@ -910,7 +910,7 @@ body{
 
     .cardValue{
 
-        font-size:28px;
+        font-size:22px;
 
     }
 
@@ -928,7 +928,7 @@ body{
 
     .historySection h2{
 
-        font-size:22px;
+        font-size:20px;
 
         margin-bottom:16px;
 
@@ -942,13 +942,13 @@ body{
 
     .historyTitle{
 
-        font-size:18px;
+        font-size:16px;
 
     }
 
     .historyAnswer{
 
-        font-size:15px;
+        font-size:14px;
 
     }
 
@@ -1154,5 +1154,53 @@ body{
         margin-top:20px;
 
     }
+
+}
+
+/* ==========================================
+   COLLAPSIBLE SECTIONS
+========================================== */
+
+details{
+
+    width:100%;
+
+}
+
+summary{
+
+    list-style:none;
+
+    cursor:pointer;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    user-select:none;
+
+    margin-bottom:18px;
+
+}
+
+summary::-webkit-details-marker{
+
+    display:none;
+
+}
+
+summary::before{
+
+    content:"▶ ";
+
+    color:#d4b04a;
+
+    transition:.2s;
+
+}
+
+details[open] summary::before{
+
+    content:"▼ ";
 
 }
