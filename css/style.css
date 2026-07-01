@@ -843,6 +843,162 @@ body{
 }
 
 /* ==========================================
+   PERFORMANCE MOBILE
+========================================== */
+
+@media (max-width:700px){
+
+    .performancePage{
+
+        width:96%;
+
+        margin:15px auto;
+
+        padding:12px;
+
+    }
+
+    .performanceHeader{
+
+        margin-bottom:25px;
+
+    }
+
+    .performanceHeader h1{
+
+        font-size:32px;
+
+    }
+
+    .performanceHeader p{
+
+        font-size:15px;
+
+    }
+
+    .backButton{
+
+        padding:10px 18px;
+
+        font-size:15px;
+
+    }
+
+    .summaryGrid{
+
+        grid-template-columns:repeat(2,1fr);
+
+        gap:12px;
+
+        margin-bottom:25px;
+
+    }
+
+    .summaryCard{
+
+        padding:16px;
+
+    }
+
+    .cardTitle{
+
+        font-size:14px;
+
+        margin-bottom:10px;
+
+    }
+
+    .cardValue{
+
+        font-size:28px;
+
+    }
+
+    .performanceSection,
+
+    .historySection{
+
+        padding:18px;
+
+        margin-bottom:20px;
+
+    }
+
+    .performanceSection h2,
+
+    .historySection h2{
+
+        font-size:22px;
+
+        margin-bottom:16px;
+
+    }
+
+    .historyCard{
+
+        padding:15px;
+
+    }
+
+    .historyTitle{
+
+        font-size:18px;
+
+    }
+
+    .historyAnswer{
+
+        font-size:15px;
+
+    }
+
+    .historyTime{
+
+        font-size:12px;
+
+    }
+
+    #resetStats{
+
+        width:100%;
+
+        padding:16px;
+
+        font-size:18px;
+
+    }
+
+    .handTypeGrid{
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:10px;
+
+}
+
+.handTypeGrid .summaryCard{
+
+    padding:14px;
+
+}
+
+.handTypeGrid .cardTitle{
+
+    font-size:13px;
+
+    margin-bottom:8px;
+
+}
+
+.handTypeGrid .cardValue{
+
+    font-size:22px;
+
+}
+
+}
+
+/* ==========================================
    MOBILE LAYOUT
 ========================================== */
 
