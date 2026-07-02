@@ -194,3 +194,33 @@ function getCorrectMove(hand){
     return HIT;
 
 }
+
+/*
+==================================================
+HEAT MAP LOOKUP
+==================================================
+*/
+
+function getStrategyMove(type, playerValue, dealerCard){
+
+    if(type === "hard"){
+
+        return HARD[playerValue][dealerCard];
+
+    }
+
+    if(type === "soft"){
+
+        return SOFT[playerValue][dealerCard];
+
+    }
+
+    if(type === "pair"){
+
+        return PAIRS[playerValue][dealerCard];
+
+    }
+
+    return null;
+
+}

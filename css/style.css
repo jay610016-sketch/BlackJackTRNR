@@ -675,6 +675,137 @@ body{
 
 }
 
+/* ==========================================
+   HEAT MAP
+========================================== */
+
+.handTypeCard{
+
+    cursor:pointer;
+
+}
+
+.heatMapContainer{
+
+    display:none;
+
+    margin-top:25px;
+
+    padding:20px;
+
+    border-radius:12px;
+
+    background:#161616;
+
+    border:1px solid #333;
+
+}
+
+.handTypeCard.open .heatMapContainer{
+
+    display:block;
+
+}
+
+.heatMap{
+
+    display:grid;
+
+    grid-template-columns:60px repeat(10,40px);
+
+    gap:8px;
+
+    justify-content:start;
+
+}
+
+.rowLabel,
+.dealerLabel{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:bold;
+
+    color:#c9a44c;
+
+}
+
+.heatTile{
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:8px;
+
+    border:1px solid #555;
+
+    background:#3a3a3a;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:bold;
+
+    font-size:16px;
+
+    color:white;
+
+    user-select:none;
+
+}
+
+/* ==========================================
+   Heat Map Performance Colours
+========================================== */
+
+.heatNeverPlayed{
+
+    background:#2b2b2b;
+
+    color:#888;
+
+}
+
+.heatPoor{
+
+    background:#8b2e2e;
+
+    color:#fff;
+
+}
+
+.heatAverage{
+
+    background:#b97b18;
+
+    color:#fff;
+
+}
+
+.heatGood{
+
+    background:#4f8b32;
+
+    color:#fff;
+
+}
+
+.heatExcellent{
+
+    background:#1f9d55;
+
+    color:#fff;
+
+}
+
 /* ---------- Sections ---------- */
 
 .performanceSection,
@@ -1202,3 +1333,154 @@ details[open] summary::before{
 
 }
 
+/* ==========================================
+   Heat Map Popup
+========================================== */
+
+.heatMapPopup{
+
+    display:none;
+
+    position:fixed;
+
+    width:270px;
+
+    background:#181818;
+
+    border:1px solid #3b3b3b;
+
+    border-radius:16px;
+
+    padding:20px;
+
+    color:#fff;
+
+    z-index:9999;
+
+    pointer-events:none;
+
+    box-shadow:
+        0 0 18px rgba(255,255,255,.10),
+        0 12px 35px rgba(0,0,0,.55);
+
+}
+
+.popupType{
+
+    display:inline-block;
+
+    padding:4px 10px;
+
+    border-radius:6px;
+
+    background:#274b2f;
+
+    color:#7adf71;
+
+    font-size:.72rem;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+}
+
+.popupTitle{
+
+    margin-top:14px;
+
+    font-size:2rem;
+
+    font-weight:700;
+
+}
+
+.popupDivider{
+
+    height:1px;
+
+    background:#333;
+
+    margin:18px 0;
+
+}
+
+.popupBestLabel{
+
+    color:#aaa;
+
+    text-transform:uppercase;
+
+    font-size:.8rem;
+
+}
+
+.popupBest{
+
+    margin-top:6px;
+
+    color:#6edb66;
+
+    font-size:2.1rem;
+
+    font-weight:700;
+
+}
+
+.popupGrid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:18px;
+
+    margin-top:20px;
+
+}
+
+.popupStatLabel{
+
+    color:#999;
+
+    font-size:.75rem;
+
+    text-transform:uppercase;
+
+}
+
+.popupStatValue{
+
+    font-size:1.8rem;
+
+    font-weight:700;
+
+}
+
+.popupSample{
+
+    margin-top:6px;
+
+    font-size:.72rem;
+
+    color:#9b9b9b;
+
+    font-style:italic;
+
+    letter-spacing:.3px;
+
+}
+
+.popupFooter{
+
+    margin-top:18px;
+
+    text-align:right;
+
+    font-size:.72rem;
+
+    color:#9b9b9b;
+
+    font-style:italic;
+
+}
