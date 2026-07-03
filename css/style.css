@@ -1484,3 +1484,89 @@ details[open] summary::before{
     font-style:italic;
 
 }
+
+/*
+==========================================
+Mobile
+==========================================
+*/
+
+@media (max-width:768px){
+
+    .performancePage{
+
+    padding:16px;
+
+}
+
+.performanceHeader{
+
+    margin-bottom:20px;
+
+}
+
+.performanceHeader h1{
+
+    font-size:2rem;
+
+}
+
+.performanceHeader p{
+
+    font-size:.95rem;
+
+}
+
+.summaryGrid{
+
+    gap:12px;
+
+}
+
+.summaryCard{
+
+    padding:16px;
+
+}
+
+.cardTitle{
+
+    font-size:.8rem;
+
+}
+
+.cardValue{
+
+    font-size:1.6rem;
+
+}
+
+.performanceSection{
+
+    padding:18px;
+
+}
+
+.historySection{
+
+    padding:18px;
+
+}
+
+.heatMapViewer{
+
+    overflow-x:auto;
+
+    overflow-y:hidden;
+
+    -webkit-overflow-scrolling:touch;
+
+}
+
+.heatMap{
+
+    min-width:620px;
+}
+
+}
+
