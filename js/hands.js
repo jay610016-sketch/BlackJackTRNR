@@ -70,6 +70,22 @@ function makeCard(rank){
 
 /*
 ----------------------------------------------------
+TRAINING MODE
+----------------------------------------------------
+*/
+
+let trainingMode = "random";
+
+/*
+Options:
+
+"random"
+
+"adaptive"
+*/
+
+/*
+----------------------------------------------------
 CARD VALUES
 ----------------------------------------------------
 */
@@ -265,72 +281,138 @@ MAIN SCENARIO GENERATOR
 ----------------------------------------------------
 */
 
-function generateScenario(){
-
-    const type = randomScenarioType();
+function buildScenario(type, playerValue, dealerValue){
 
     let player;
     let cards;
 
     switch(type){
 
-        case "hard":{
-
-            const total = randomItem(HARD_TOTALS);
+        case "hard":
 
             player = {
-                type: "hard",
-                value: total
+
+                type:"hard",
+
+                value:playerValue
+
             };
 
-            cards = generateHardCards(total);
+            cards = generateHardCards(playerValue);
 
             break;
-        }
 
-        case "soft":{
-
-            const total = randomItem(SOFT_TOTALS);
+        case "soft":
 
             player = {
-                type: "soft",
-                value: total
+
+                type:"soft",
+
+                value:playerValue
+
             };
 
-            cards = generateSoftCards(total);
+            cards = generateSoftCards(playerValue);
 
             break;
-        }
 
-        case "pair":{
-
-            const rank = randomItem(PAIR_RANKS);
+        case "pair":
 
             player = {
-                type: "pair",
-                value: rank
+
+                type:"pair",
+
+                value:playerValue
+
             };
 
-            cards = generatePairCards(rank);
+            cards = generatePairCards(playerValue);
 
             break;
-        }
 
     }
 
     const hand = {
 
-        dealer: randomDealerCard(),
+        dealer:{
 
-        player: player,
+            rank:dealerValue.toString(),
 
-        cards: cards
+            suit:randomSuit()
+
+        },
+
+        player:player,
+
+        cards:cards
 
     };
 
     validateScenario(hand);
 
     return hand;
+
+}
+
+function generateRandomScenario(){
+
+    const type = randomScenarioType();
+
+    let playerValue;
+
+    switch(type){
+
+        case "hard":
+
+            playerValue = randomItem(HARD_TOTALS);
+
+            break;
+
+        case "soft":
+
+            playerValue = randomItem(SOFT_TOTALS);
+
+            break;
+
+        case "pair":
+
+            playerValue = randomItem(PAIR_RANKS);
+
+            break;
+
+    }
+
+    return buildScenario(
+
+        type,
+
+        playerValue,
+
+        randomItem(DEALER_UPCARDS)
+
+    );
+
+}
+
+/*
+----------------------------------------------------
+SCENARIO DISPATCHER
+----------------------------------------------------
+*/
+
+function generateScenario(){
+
+    switch(trainingMode){
+
+        case "adaptive":
+
+            return generateAdaptiveScenario();
+
+        default:
+
+            return generateRandomScenario();
+
+    }
 
 }
 
@@ -372,5 +454,41 @@ function validateScenario(hand){
         }
 
     }
+
+}
+
+/*
+----------------------------------------------------
+ADAPTIVE SCENARIO
+----------------------------------------------------
+*/
+
+function generateAdaptiveScenario(){
+
+    const scenario = getAdaptiveScenario();
+
+    console.log(
+
+        "Adaptive:",
+
+        scenario
+
+    );
+
+rememberScenario(
+
+    scenario.id
+
+);
+
+    return buildScenario(
+
+        scenario.type,
+
+        scenario.player,
+
+        scenario.dealer
+
+    );
 
 }

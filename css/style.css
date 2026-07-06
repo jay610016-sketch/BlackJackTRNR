@@ -541,6 +541,150 @@ body{
 
 }
 
+/*
+==========================================
+Adaptive Toggle
+==========================================
+*/
+
+.trainerModeSection{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin:20px 0 30px;
+
+}
+
+.trainerModeTitle{
+
+    font-size:.9rem;
+
+    font-weight:600;
+
+    letter-spacing:.08em;
+
+    text-transform:uppercase;
+
+    color:#bdbdbd;
+
+}
+
+.trainerSwitch{
+
+    position:relative;
+
+    display:inline-block;
+
+    width:110px;
+
+    height:44px;
+
+}
+
+.trainerSwitch input{
+
+    display:none;
+
+}
+
+.trainerSlider{
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:999px;
+
+    background:#2a2a2a;
+
+    border:1px solid #3d3d3d;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.trainerSlider::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:4px;
+
+    top:4px;
+
+    width:36px;
+
+    height:36px;
+
+    border-radius:50%;
+
+    background:white;
+
+    transition:.25s;
+
+    box-shadow:
+
+        0 0 12px rgba(255,255,255,.35);
+
+}
+
+.trainerSwitch input:checked + .trainerSlider{
+
+    background:#2e7d32;
+
+    box-shadow:
+        0 0 8px rgba(46,125,50,.45),
+        0 0 18px rgba(46,125,50,.25);
+
+}
+
+.trainerSwitch input:checked + .trainerSlider::before{
+
+    transform:translateX(66px);
+
+}
+
+.trainerLabelOff{
+
+    position:absolute;
+
+    left:16px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    font-size:.72rem;
+
+    font-weight:700;
+
+}
+
+.trainerLabelOn{
+
+    position:absolute;
+
+    right:12px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    font-size:.72rem;
+
+    font-weight:700;
+
+}
+
 /* ==================================================
    PERFORMANCE PAGE
 ================================================== */
@@ -1566,6 +1710,12 @@ Mobile
 .heatMap{
 
     min-width:620px;
+}
+
+body{
+
+    background:red !important;
+
 }
 
 }

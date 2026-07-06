@@ -289,6 +289,84 @@ document.getElementById("quickStats")
 
 /*
 ==========================================
+Training Mode Toggle
+==========================================
+*/
+
+const adaptiveToggle =
+
+    document.getElementById(
+
+        "adaptiveToggle"
+
+    );
+
+/*
+==========================================
+Load Saved Training Mode
+==========================================
+*/
+
+const savedMode =
+
+    localStorage.getItem(
+
+        "bjtrnr.trainingMode"
+
+    );
+
+if(savedMode){
+
+    trainingMode = savedMode;
+
+}
+
+adaptiveToggle.checked =
+
+    trainingMode === "adaptive";
+
+/*
+==========================================
+Toggle Changed
+==========================================
+*/
+
+adaptiveToggle.addEventListener(
+
+    "change",
+
+    function(){
+
+        trainingMode =
+
+            adaptiveToggle.checked
+
+                ? "adaptive"
+
+                : "random";
+
+        /*
+        ==========================================
+        Save Preference
+        ==========================================
+        */
+
+        localStorage.setItem(
+
+            "bjtrnr.trainingMode",
+
+            trainingMode
+
+        );
+
+        generateHand();
+
+    }
+
+);
+
+/*
+==========================================
 Initialization
 ==========================================
 */
